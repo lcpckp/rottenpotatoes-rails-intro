@@ -11,12 +11,31 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if params[:sort] == 'release_date'
-      @movies = Movie.all.sort_by { |movie| movie.release_date }
-    elsif params[:sort] == 'movie_title'
-      @movies = Movie.all.sort_by { |movie| movie.title }
-    else
-      @movies = Movie.all
+    @all_ratings = Movie.all_ratings
+    @movies = Movie.all
+    
+    if params[:ratings] != nil
+      @movies = @movies.select{ |movie| params[:ratings].has_key?(movie.rating) }
+      session[:ratings] = params[:ratings]
+      #debugger
+    end
+    
+    if session[:ratings] != nil
+      @movies = @movies.select{ |movie| session[:ratings].has_key?(movie.rating) }
+    end
+    
+    if params[:sort] != nil
+      #debugger
+      instance_eval %Q"
+      @movies = @movies.sort_by{ |movie| movie.#{params[:sort]}}
+      "
+      session[:sort] = params[:sort]
+    end
+    
+    if session[:sort] != nil
+      instance_eval %Q"
+      @movies = @movies.sort_by{ |movie| movie.#{session[:sort]}}
+      "
     end
   end
 
