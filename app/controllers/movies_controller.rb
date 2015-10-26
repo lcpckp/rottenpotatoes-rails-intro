@@ -28,6 +28,7 @@ class MoviesController < ApplicationController
       #debugger
       instance_eval %Q"
       @movies = @movies.sort_by{ |movie| movie.#{params[:sort]}}
+      @hilite_#{params[:sort]} = true
       "
       session[:sort] = params[:sort]
     end

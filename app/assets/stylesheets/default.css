@@ -16,6 +16,11 @@ a {
   text-decoration: underline;
   font-weight: bold;
 }
+
+table#movies th.hilite {
+  background-color: yellow;
+}
+
 h1 {
   color: maroon;
   font-size: 150%;
