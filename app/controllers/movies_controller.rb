@@ -17,10 +17,12 @@ class MoviesController < ApplicationController
     if params[:ratings] != nil
       @movies = @movies.select{ |movie| params[:ratings].has_key?(movie.rating) }
       session[:ratings] = params[:ratings]
+      @selected = params[:ratings].keys
     end
     
     if session[:ratings] != nil
       @movies = @movies.select{ |movie| session[:ratings].has_key?(movie.rating) }
+      @selected = session[:ratings].keys
     end
     
     if params[:sort] != nil
