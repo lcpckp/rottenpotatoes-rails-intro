@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @redirect = false
     @all_ratings = Movie.all_ratings
     @movies = Movie.all
     
@@ -28,11 +29,12 @@ class MoviesController < ApplicationController
         session[:ratings] = params[:ratings]
       end
       @selected = params[:ratings].keys
-    end
-    
-    if session[:ratings] != nil
+      @ratings = params[:ratings]
+    else
       @movies = @movies.select{ |movie| session[:ratings].has_key?(movie.rating) }
       @selected = session[:ratings].keys
+      @ratings = session[:ratings]
+      @redirect = true
     end
     
     if params[:sort] != nil
@@ -42,12 +44,17 @@ class MoviesController < ApplicationController
       @hilite_#{params[:sort]} = true
       "
       session[:sort] = params[:sort]
-    end
-    
-    if session[:sort] != nil
+      @sort = session[:sort]
+    else
       instance_eval %Q"
       @movies = @movies.sort_by{ |movie| movie.#{session[:sort]}}
       "
+      @sort = session[:sort]
+      @redirect = true
+    end
+    
+    if @redirect
+      redirect_to movies_path(:sort => @sort, :ratings => @ratings)
     end
   end
 
