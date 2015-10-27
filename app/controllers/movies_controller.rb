@@ -14,15 +14,19 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @movies = Movie.all
     
-    if params[:ratings] == nil and params[:sort] == nil
-      @selected = Movie.all_ratings
-      session.delete(:ratings)
-      params[:ratings] = {'G' => 1, 'PG' => 1, 'PG-13' => 1, 'R' => 1, 'NC-17' => 1}
-    end
+    
+    
+    #if params[:ratings] == nil and params[:sort] == nil
+   #   @selected = Movie.all_ratings
+    #  session.delete(:ratings)
+    #  params[:ratings] = {'G' => 1, 'PG' => 1, 'PG-13' => 1, 'R' => 1, 'NC-17' => 1}
+    #end
     
     if params[:ratings] != nil
       @movies = @movies.select{ |movie| params[:ratings].has_key?(movie.rating) }
-      session[:ratings] = params[:ratings]
+      if params[:commit] == 'Refresh'
+        session[:ratings] = params[:ratings]
+      end
       @selected = params[:ratings].keys
     end
     
