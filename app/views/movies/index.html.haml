@@ -13,17 +13,17 @@
   %thead
     %tr
       -if @hilite_title
-        %th{class: "hilite"}= link_to "Movie Title", movies_path(:sort => 'title', :id => 'title_header')
+        %th{class: "hilite", id: "title_header"}= link_to "Movie Title", movies_path(:sort => 'title', :id => 'title_header')
       -else
-        %th= link_to "Movie Title", movies_path(:sort => 'title', :id => 'title_header')
+        %th{id: "title_header"}= link_to "Movie Title", movies_path(:sort => 'title', :id => 'title_header')
 
       
       %th Rating
       
       -if @hilite_release_date
-        %th{class: "hilite"}= link_to "Release Date", movies_path(:sort => 'release_date', :id => 'release_date_header')
+        %th{class: "hilite", id: "title_header"}= link_to "Release Date", movies_path(:sort => 'release_date', :id => 'release_date_header')
       -else
-        %th= link_to "Release Date", movies_path(:sort => 'release_date', :id => 'release_date_header')
+        %th{id: "title_header"}= link_to "Release Date", movies_path(:sort => 'release_date', :id => 'release_date_header')
 
       
       %th More Info
