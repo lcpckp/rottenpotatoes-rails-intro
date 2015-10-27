@@ -17,6 +17,7 @@ class MoviesController < ApplicationController
     if params[:ratings] == nil
       @selected = Movie.all_ratings
       session.delete(:ratings)
+      params[:rating] = ['G' => 1, 'PG' => 1, 'PG-13' => 1, 'R' => 1, 'NC-17' => 1]
     end
     
     if params[:ratings] != nil
