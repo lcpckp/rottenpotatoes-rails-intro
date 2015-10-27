@@ -30,7 +30,7 @@ class MoviesController < ApplicationController
       end
       @selected = params[:ratings].keys
       @ratings = params[:ratings]
-    else
+    elsif session[:ratings] != nil
       @movies = @movies.select{ |movie| session[:ratings].has_key?(movie.rating) }
       @selected = session[:ratings].keys
       @ratings = session[:ratings]
@@ -45,7 +45,7 @@ class MoviesController < ApplicationController
       "
       session[:sort] = params[:sort]
       @sort = session[:sort]
-    else
+    elsif session[:sort] != nil
       instance_eval %Q"
       @movies = @movies.sort_by{ |movie| movie.#{session[:sort]}}
       "
