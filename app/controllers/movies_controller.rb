@@ -11,51 +11,55 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
     @redirect = false
     @all_ratings = Movie.all_ratings
     @movies = Movie.all
     
     
-    
-    #if params[:ratings] == nil and params[:sort] == nil
-   #   @selected = Movie.all_ratings
-    #  session.delete(:ratings)
-    #  params[:ratings] = {'G' => 1, 'PG' => 1, 'PG-13' => 1, 'R' => 1, 'NC-17' => 1}
-    #end
-    
-    if params[:ratings] != nil
-      @movies = @movies.select{ |movie| params[:ratings].has_key?(movie.rating) }
-      if params[:commit] == 'Refresh'
-        session[:ratings] = params[:ratings]
-      end
-      @selected = params[:ratings].keys
+    if params[:ratings]
       @ratings = params[:ratings]
-    elsif session[:ratings] != nil
-      @movies = @movies.select{ |movie| session[:ratings].has_key?(movie.rating) }
-      @selected = session[:ratings].keys
+    elsif session[:ratings]
       @ratings = session[:ratings]
       @redirect = true
+    else
+      @ratings = { 'G' => '1', 'PG' => '1', 'PG-13' => '1', 'R' => '1', 'NC-17' => '1' }
     end
     
-    if params[:sort] != nil
-      #debugger
-      instance_eval %Q"
-      @movies = @movies.sort_by{ |movie| movie.#{params[:sort]}}
-      @hilite_#{params[:sort]} = true
-      "
-      session[:sort] = params[:sort]
-      @sort = session[:sort]
-    elsif session[:sort] != nil
-      instance_eval %Q"
-      @movies = @movies.sort_by{ |movie| movie.#{session[:sort]}}
-      "
+    @selected = @ratings.keys
+    
+    if params[:sort]
+      @sort = params[:sort]
+    elsif session[:sort]
       @sort = session[:sort]
       @redirect = true
+    else
+      @sort = 'title'
     end
     
     if @redirect
       redirect_to movies_path(:sort => @sort, :ratings => @ratings)
     end
+    
+    @movies = @movies.select{ |movie| @ratings.has_key?(movie.rating) }
+    
+    if params[:commit] == 'Refresh'
+      session[:ratings] = params[:ratings]
+    end
+    
+    
+    if @sort == 'title'
+      @movies = @movies.sort_by{ |movie| movie.title }
+    elsif @sort == 'release_date'
+      @movies = @movies.sort_by{ |movie| movie.release_date }
+    end
+    
+    instance_eval %Q"
+      @hilite_#{params[:sort]} = true
+    "
+    
+    session[:sort] = @sort
+    session[:ratings] = @ratings
   end
 
   def new
