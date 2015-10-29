@@ -19,9 +19,9 @@
   %tbody
     - @movies.each do |movie|
       %tr
-        %td= movie.title 
-        %td= movie.rating
+        %td= movie.title
         %td= movie.release_date
+        %td= movie.rating
         %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path
