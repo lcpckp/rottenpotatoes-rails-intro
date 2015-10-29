@@ -12,7 +12,7 @@ div#main {
 }
 a {
   background: transparent;
-  color: maroon;
+  color: darkgreen;
   text-decoration: underline;
   font-weight: bold;
 }
@@ -22,9 +22,9 @@ table#movies th.hilite {
 }
 
 h1 {
-  color: maroon;
+  color: darkgreen;
   font-size: 150%;
-  font-style: italic;
+  font-style: bold;
   display: block;
   width: 100%;
   border-bottom: 1px solid DarkSlateGrey;
@@ -32,7 +32,7 @@ h1 {
 h1.title {
   margin: 0 0 1em;
   padding: 10px;
-  background-color: teal;
+  background-color: darkgreen;
   color: white;
   border-bottom: 4px solid gold;
   font-size: 2em;
@@ -48,7 +48,7 @@ table#movies {
 table#movies th {
   border: 2px solid white;
   font-weight: bold;
-  background-color: wheat;
+  background-color: tan;
 }
 table#movies th, table#movies td {
   padding: 4px;
@@ -63,5 +63,5 @@ form label {
   display: block;
   line-height: 25px;
   font-weight: bold;
-  color: maroon;
+  color: darkgreen;
 }
